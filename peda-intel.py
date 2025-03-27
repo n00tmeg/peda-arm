@@ -53,7 +53,7 @@ class Nasm:
         asmcode = asmcode.replace(";", "\n")
         asmcode = ("BITS %d\n" % mode) + asmcode
         asmcode = decode_string_escape(asmcode)
-        asmcode = re.sub("PTR|ptr|ds:|DS:", "", asmcode)
+        asmcode = re.sub(r"PTR|ptr|ds:|DS:", "", asmcode)
         infd = tmpfile()
         outfd = tmpfile(is_binary_file=True)
         infd.write(asmcode)
@@ -300,7 +300,7 @@ class IntelPEDACmd(PEDACmd):
             p = re.compile(r":\s*([^ ]*)\s*(.*),")
             matches = p.findall(code)
             regs = [r for (_, r) in matches]
-            p = re.compile("di|si|dx|cx|r8|r9")
+            p = re.compile(r"di|si|dx|cx|r8|r9")
             m = p.findall(" ".join(regs))
             m = list(set(m))  # uniqify
             argc = 0
